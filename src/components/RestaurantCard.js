@@ -12,23 +12,36 @@ const RestaurantCard = (props) => {
     costForTwoString,
   } = restData?.data;
   return (
-    <div className="restaurant-card">
-      <img
-        src={CDN_URL + cloudinaryImageId}
-        alt="rest-logo"
-        className="rest-logo"
-      />
-      <h3>{name}</h3>
-      <span className="cuisines-list">{cuisines.join(", ")}</span>
-      <br />
-      <div className="rating-eta-cost">
-        <div className="rating-eta">
-          <span>{avgRating} stars</span>
-          <span>{slaString}</span>
+    <div className="">
+      <div>
+        <img
+          src={CDN_URL + cloudinaryImageId}
+          alt="rest-logo"
+          className="rounded-md"
+        />
+        <h3 className="text-xl text-green-900 font-bold">{name}</h3>
+        <span className="text-sm">{cuisines.join(", ")}</span>
+        <br />
+        <div className="flex flex-col h-full justify-between">
+          <div className="flex justify-between text-green-900">
+            <span>{avgRating} &#9733;</span>
+            <span>{slaString}</span>
+          </div>
+          <div className="">{costForTwoString}</div>
         </div>
-        <div>{costForTwoString}</div>
       </div>
     </div>
   );
 };
 export default RestaurantCard;
+
+export const withPromotedLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute bg-green-950 text-white p-1 rounded-md">Promoted</label>
+        <RestaurantCard {...props}/>
+      </div>
+    );
+  };
+};
