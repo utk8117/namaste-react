@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
 import { LOGO_URL } from "../utils/constants";
 import useOnline from "../utils/useOnline";
+import { useContext } from "react";
+import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
+import Badge from "@mui/material/Badge";
+import WifiIcon from "@mui/icons-material/Wifi";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { green } from "@mui/material/colors";
 
 const Header = () => {
   const onlineStatus = useOnline();
+  const { loggedIn } = useContext(UserContext);
+  const cartItems = useSelector((store) => store.cart.items);
+  console.log(loggedIn);
   return (
     <div className="flex justify-between p-1 border-b-2 ">
       <div className="logo-container">
@@ -12,7 +22,9 @@ const Header = () => {
       <div className="flex">
         <ul className="flex">
           <li className="p-2 m-2 font-semibold">
-            Online Status : {onlineStatus ? "online":"offline"}
+            <Badge variant="dot" color={onlineStatus ? "success" : "error"}>
+              <WifiIcon />
+            </Badge>
           </li>
           <li className="p-2 m-2">
             <Link to="/">Home</Link>
@@ -27,10 +39,16 @@ const Header = () => {
             <Link to="/grocery">Grocery</Link>
           </li>
           <li className="p-2 m-2">
-            <Link to="/cart">Cart</Link>
+            <Link to="/cart">
+              <Badge badgeContent={cartItems.length} color="info">
+                <ShoppingCartIcon sx={{ color: green[500] }} />
+              </Badge>
+            </Link>
           </li>
-
-          <button className="p-2 px-3 m-2 bg-green-500 rounded-md">Login</button>
+          <li className="p-2 m-2">{loggedIn}</li>
+          <button className="p-2 px-3 m-2 bg-green-500 rounded-md">
+            Login
+          </button>
         </ul>
       </div>
     </div>

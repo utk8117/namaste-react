@@ -10,7 +10,7 @@ const RestaurantCard = (props) => {
     avgRating,
     slaString,
     costForTwoString,
-  } = restData?.data;
+  } = restData;
   return (
     <div className="">
       <div>

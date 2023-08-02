@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import AccordionBody from "./AccordionBody";
 
-const RestaurantAccordions = ({ data }) => {
-  const [expandAccordion, setExpandAccordion] = useState(false);
+const RestaurantAccordions = ({ data, showCard, setShowCard }) => {
   return (
     <div
       className="flex flex-col w-6/12 mx-auto my-4 bg-slate-100 shadow-lg p-4 border-solid justify-between "
-      onClick={() => setExpandAccordion(!expandAccordion)}
+      onClick={() => {
+        setShowCard();
+      }}
     >
       <div className="flex justify-between">
         <span className="font-bold text-lg">
@@ -14,7 +15,7 @@ const RestaurantAccordions = ({ data }) => {
         </span>
         <span className="font-bold text-lg">+</span>
       </div>
-      {expandAccordion && <AccordionBody items={data.itemCards} />}
+      {showCard && <AccordionBody items={data.itemCards} />}
     </div>
   );
 };

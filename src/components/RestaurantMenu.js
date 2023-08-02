@@ -6,6 +6,7 @@ import RestaurantAccordions from "./RestaurantAccordions";
 
 const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
+  const [expandAccordion, setExpandAccordion] = useState(0);
   useEffect(() => {
     fetchMenu();
   }, []);
@@ -25,8 +26,10 @@ const RestaurantMenu = () => {
   const { itemCards } =
     resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card;
   const categories =
-    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
-      (d) => d?.card?.card?.["@type"].includes("type.googleapis.com/swiggy.presentation.food.v2.ItemCategory")
+    resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter((d) =>
+      d?.card?.card?.["@type"].includes(
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+      )
     );
   console.log("category", categories);
   return (
@@ -37,13 +40,13 @@ const RestaurantMenu = () => {
       </h4>
       <h4>MENU</h4>
       <ul>
-        {categories.map((section,id) => (
-          <RestaurantAccordions key={id} data={section.card.card}/>
-          // <li key={menuItem.card.info.id}>
-          //   {menuItem.card.info.name} - Rs.{" "}
-          //   {menuItem.card.info.price / 100 ||
-          //     menuItem.card.info.defaultPrice / 100}
-          // </li>
+        {categories.map((section, id) => (
+          <RestaurantAccordions
+            key={id}
+            data={section.card.card}
+            showCard={expandAccordion == id}
+            setShowCard={()=>setExpandAccordion(id)}
+          />
         ))}
       </ul>
     </div>
