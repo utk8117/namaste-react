@@ -18,22 +18,26 @@ const Body = () => {
   const fetchData = async () => {
     let data = await fetch(RESTAURANT_LIST);
     const json = await data.json();
-    setListOfRestaurant(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    setAllRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    setListOfRestaurant(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    setAllRestaurants(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
   };
   const onlineStatus = useOnline();
   if (!onlineStatus) {
     return <h3>You are not online!!!!</h3>;
   }
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
-  const {loggedIn, setUserName } = useContext(UserContext);
-  console.log(listOfRestaurant);
+  const { loggedIn, setUserName } = useContext(UserContext);
 
   return (
     <div className="body">
       <div className="flex justify-evenly p-5">
         <div className="flex">
           <input
+            data-testid="searchInput"
             type="text"
             className="border-2 border-solid border-gray-300 rounded-md"
             value={searchText}
@@ -46,8 +50,9 @@ const Body = () => {
             onClick={() => {
               console.log(searchText);
               const filteredRestaurants = allRestaurants.filter((value) =>
-                value.data.name.toLowerCase().includes(searchText.toLowerCase())
+                value.info.name.toLowerCase().includes(searchText.toLowerCase())
               );
+              
               setListOfRestaurant(filteredRestaurants);
             }}
           >
@@ -59,7 +64,7 @@ const Body = () => {
           onClick={() => {
             console.log("Button clicked!");
             const newList = listOfRestaurant.filter((data) => {
-              return data.data.avgRating >= 4;
+              return data.info.avgRating >= 4;
             });
             setListOfRestaurant(newList);
           }}
@@ -84,7 +89,11 @@ const Body = () => {
         ) : (
           listOfRestaurant.map((data) => {
             return (
-              <div className="flex border-2 border-solid border-gray-300 my-2 p-2 m-1 w-64 rounded-xl hover:border-green-500 hover:drop-shadow-xl hover:bg-lime-50">
+              <div
+                key={data.info.id}
+                data-testid="resCard"
+                className="flex border-2 border-solid border-gray-300 my-2 p-2 m-1 w-64 rounded-xl hover:border-green-500 hover:drop-shadow-xl hover:bg-lime-50"
+              >
                 <Link to={"/restaurant/" + data.info.id} key={data.info.uuid}>
                   {data?.info?.promoted ? (
                     <RestaurantCardPromoted restData={data?.info} />

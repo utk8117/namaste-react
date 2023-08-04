@@ -9,7 +9,7 @@ const RestaurantCard = (props) => {
     cuisines,
     avgRating,
     slaString,
-    costForTwoString,
+    costForTwo,
   } = restData;
   return (
     <div className="">
@@ -27,7 +27,7 @@ const RestaurantCard = (props) => {
             <span>{avgRating} &#9733;</span>
             <span>{slaString}</span>
           </div>
-          <div className="">{costForTwoString}</div>
+          <div className="">{costForTwo}</div>
         </div>
       </div>
     </div>
@@ -39,8 +39,10 @@ export const withPromotedLabel = (RestaurantCard) => {
   return (props) => {
     return (
       <div>
-        <label className="absolute bg-green-950 text-white p-1 rounded-md">Promoted</label>
-        <RestaurantCard {...props}/>
+        <label className="absolute bg-green-950 text-white p-1 rounded-md">
+          Promoted
+        </label>
+        <RestaurantCard {...props} />
       </div>
     );
   };

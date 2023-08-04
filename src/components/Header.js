@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { LOGO_URL } from "../utils/constants";
 import useOnline from "../utils/useOnline";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../utils/UserContext";
 import { useSelector } from "react-redux";
 import Badge from "@mui/material/Badge";
@@ -13,7 +13,7 @@ const Header = () => {
   const onlineStatus = useOnline();
   const { loggedIn } = useContext(UserContext);
   const cartItems = useSelector((store) => store.cart.items);
-  console.log(loggedIn);
+  const [btnCLick, setBtnClick] = useState(true);
   return (
     <div className="flex justify-between p-1 border-b-2 ">
       <div className="logo-container">
@@ -46,8 +46,11 @@ const Header = () => {
             </Link>
           </li>
           <li className="p-2 m-2">{loggedIn}</li>
-          <button className="p-2 px-3 m-2 bg-green-500 rounded-md">
-            Login
+          <button
+            className="p-2 px-3 m-2 bg-green-500 rounded-md"
+            onClick={() => setBtnClick(!btnCLick)}
+          >
+            {btnCLick ? "Login" : "Logout"}
           </button>
         </ul>
       </div>
